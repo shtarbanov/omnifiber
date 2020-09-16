@@ -25,8 +25,7 @@ function toVoltage(rawVal){
   return volts;
 }
 function to_dL(dv,v0){
-  let dL_over_L0 = 0;
-  dL_over_L0 = 1.000717938244340327 + 0.676505025679115*(dv/v0) + 133167.82597692* (dv/v0)^6;
+  let dL_over_L0 = 0.743185924088565*ln(dv/v0+ 1.0);
   return dL_over_L0*L0;
 }
 async function initStrainService(){
