@@ -70,7 +70,7 @@ async function initStrainService(){
       document.querySelector('#voltageVal').innerHTML = 'A5: ' + toVoltage(a5).toFixed(4) + '<br>A3: ' + toVoltage(a3).toFixed(4) + '<br>A2: ' + toVoltage(a2).toFixed(4) + '<br>A1: ' + toVoltage(a1).toFixed(4);
       document.querySelector('#dvVal').innerHTML = 'A5: ' + a5dv + '<br>A3: ' + a3dv + '<br>A2: ' + a2dv +  '<br>A1: ' + a1dv;
       document.querySelector('#dlVal').innerHTML = 'A5: ' + a5dl.toFixed(4) + '<br>A3: ' + a3dl.toFixed(4) + '<br>A2: ' + a2dl.toFixed(4) +  '<br>A1: ' + a1dl.toFixed(4);
-      //document.querySelector('#lVal').innerHTML = 'A5: ' + a5dl+L0 + '<br>A3: ' + a3dl+L0 + '<br>A2: ' + a2dl+L0 +  '<br>A1: ' + a1dl+L0;
+      document.querySelector('#lVal').innerHTML = 'A5: ' + a5dl+L0 + '<br>A3: ' + a3dl+L0 + '<br>A2: ' + a2dl+L0 +  '<br>A1: ' + a1dl+L0;
 
 
       try{
