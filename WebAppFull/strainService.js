@@ -61,6 +61,7 @@ async function initStrainService(){
       a1dl=to_dL(a1dv,a1V0) * L0;
 
       document.querySelector('#strainVal').innerHTML = 'pin.29.(A5): ' + a5 + '<br>pin.05.(A3): ' + a3 + '<br>pin.04.(A2): ' + a2 + '<br>pin.03.(A1): ' + a1
+      document.querySelector('#v0Val').innerHTML = 'A5: ' + a5V0 + '<br>A3: ' + a3V0 + '<br>A2: ' + a2V0 + '<br>A1: ' + a1V0;
       document.querySelector('#voltageVal').innerHTML = 'A5: ' + toVoltage(a5).toFixed(4) + '<br>A3: ' + toVoltage(a3).toFixed(4) + '<br>A2: ' + toVoltage(a2).toFixed(4) + '<br>A1: ' + toVoltage(a1).toFixed(4);
       document.querySelector('#dvVal').innerHTML = 'A5: ' + a5dv + '<br>A3: ' + a3dv + '<br>A2: ' + a2dv +  '<br>A1: ' + a1dv;
       document.querySelector('#dlVal').innerHTML = 'A5: ' + a5dl.toFixed(4) + '<br>A3: ' + a3dl.toFixed(4) + '<br>A2: ' + a2dl.toFixed(4) +  '<br>A1: ' + a1dl.toFixed(4);
