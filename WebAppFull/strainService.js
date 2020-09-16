@@ -16,6 +16,7 @@ let areInitialValuesStored = false;
 let a5V0,a3V0,a2V0,a1V0;
 let a5dv,a3dv,a2dv,a1dv;
 let a5dl,a3dl,a2dl,a1dl;
+let a5l, a3l, a2l, a1l;
 
 let L0=30; //mm
 
@@ -24,16 +25,24 @@ function toVoltage(rawVal){
   volts = 0.6226 + rawVal*(2.34375-0.6226)/255
   return volts;
 }
+
 function to_dL(dv,v0){
   let dL_over_L0 = 0;
-  dL_over_L0 = 0.743185924088565*Math.log(dv/v0+ 1.0)+1;
-  if(dL_over_L0 > L0){
-    return dL_over_L0*L0;
+  dL_over_L0 = 0.743185924088565*Math.log(dv/v0+ 1.0) * L0;
+  return dL_over_L0;
+}
+
+function to_L(dv,v0){
+  let L_final = 0;
+  L_final = ( 0.743185924088565*Math.log(dv/v0+ 1.0) + 1) * L0;
+  if(L_final > L0){
+    return L_final;
   }
   else{
     return L0;
   }
 }
+
 async function initStrainService(){
   try{
     strainService = await bleServer.getPrimaryService(strainServiceUUID);
@@ -61,16 +70,21 @@ async function initStrainService(){
       a1dv=(toVoltage(a1)-a1V0).toFixed(4);
 
 
-      a5dl=to_dL(a5dv,a5V0);
-      a3dl=to_dL(a3dv,a3V0);
-      a2dl=to_dL(a2dv,a2V0);
-      a1dl=to_dL(a1dv,a1V0);
+      a5dl=to_dL(a5dv,a5V0).toFixed(4);
+      a3dl=to_dL(a3dv,a3V0).toFixed(4);
+      a2dl=to_dL(a2dv,a2V0).toFixed(4);
+      a1dl=to_dL(a1dv,a1V0).toFixed(4);
+
+      a5l=to_L(a5dv,a5V0).toFixed(4);
+      a3l=to_L(a3dv,a3V0).toFixed(4);
+      a2l=to_L(a2dv,a2V0).toFixed(4);
+      a1l=to_L(a1dv,a1V0).toFixed(4);
 
       document.querySelector('#strainVal').innerHTML = 'pin.29.(A5): ' + a5 + '<br>pin.05.(A3): ' + a3 + '<br>pin.04.(A2): ' + a2 + '<br>pin.03.(A1): ' + a1
       document.querySelector('#voltageVal').innerHTML = 'A5: ' + toVoltage(a5).toFixed(4) + '<br>A3: ' + toVoltage(a3).toFixed(4) + '<br>A2: ' + toVoltage(a2).toFixed(4) + '<br>A1: ' + toVoltage(a1).toFixed(4);
       document.querySelector('#dvVal').innerHTML = 'A5: ' + a5dv + '<br>A3: ' + a3dv + '<br>A2: ' + a2dv +  '<br>A1: ' + a1dv;
-      document.querySelector('#dlVal').innerHTML = 'A5: ' + a5dl.toFixed(4) + '<br>A3: ' + a3dl.toFixed(4) + '<br>A2: ' + a2dl.toFixed(4) +  '<br>A1: ' + a1dl.toFixed(4);
-      document.querySelector('#lVal').innerHTML = 'A5: ' + a5dl+L0 + '<br>A3: ' + a3dl+L0 + '<br>A2: ' + a2dl+L0 +  '<br>A1: ' + a1dl+L0;
+      document.querySelector('#dlVal').innerHTML = 'A5: ' + a5dl + '<br>A3: ' + a3dl + '<br>A2: ' + a2dl +  '<br>A1: ' + a1dl;
+      document.querySelector('#lVal').innerHTML = 'A5: ' + a5l + '<br>A3: ' + a3l + '<br>A2: ' + a2l +  '<br>A1: ' + a1l;
 
 
       try{
