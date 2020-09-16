@@ -24,10 +24,10 @@ function toVoltage(rawVal){
   volts = 0.6226 + rawVal*(2.34375-0.6226)/255
   return volts;
 }
-function to_dL_over_L0(dv,v0){
+function to_dL(dv,v0){
   let dL_over_L0 = 0;
   dL_over_L0 = 8.033*(Math.exp(dv/v0)-1);
-  return dL_over_L0;
+  return dL_over_L0*L0;
 }
 async function initStrainService(){
   try{
@@ -56,10 +56,10 @@ async function initStrainService(){
       a1dv=(toVoltage(a1)-a1V0).toFixed(4);
 
 
-      a5dl=to_dL_over_L0(a5dv,a5V0)*L0;
-      a3dl=to_dL_over_L0(a3dv,a3V0)*L0;
-      a2dl=to_dL_over_L0(a2dv,a2V0)*L0;
-      a1dl=to_dL_over_L0(a1dv,a1V0)*L0;
+      a5dl=to_dL(a5dv,a5V0);
+      a3dl=to_dL(a3dv,a3V0);
+      a2dl=to_dL(a2dv,a2V0);
+      a1dl=to_dL(a1dv,a1V0);
 
       document.querySelector('#strainVal').innerHTML = 'pin.29.(A5): ' + a5 + '<br>pin.05.(A3): ' + a3 + '<br>pin.04.(A2): ' + a2 + '<br>pin.03.(A1): ' + a1
       document.querySelector('#voltageVal').innerHTML = 'A5: ' + toVoltage(a5).toFixed(4) + '<br>A3: ' + toVoltage(a3).toFixed(4) + '<br>A2: ' + toVoltage(a2).toFixed(4) + '<br>A1: ' + toVoltage(a1).toFixed(4);
