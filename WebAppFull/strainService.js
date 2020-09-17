@@ -98,23 +98,23 @@ async function initStrainService(){
       document.querySelector('#pVal').innerHTML = 'A5: ' + p5equiv + '<br>A3: ' + p3equiv + '<br>A2: ' + p2equiv +  '<br>A1: ' + p1equiv;
 
       try{
-        if(p1equiv>p1internal){
+        if(p1equiv>(p1internal+0.25)){
           startInflationOnPort(0x01, 0xff);
           p1internal = pressureValueFloat;
           log("P1: ");
           log(p1internal);
         }
-        else if(p3equiv>p3internal){
+        else if(p3equiv>(p3internal+0.25)){
           startInflationOnPort(0x03, 0xff);
           p3internal = pressureValueFloat;
           log("P3: ");
           log(p3internal);
         }
-        else if(p1equiv<(p1internal-0.5)){
+        else if(p1equiv<(p1internal-0.25)){
           startReleaseOnPort(0x01);
           p1internal = pressureValueFloat;
         }
-        else if(p3equiv<(p3internal-0.5)){
+        else if(p3equiv<(p3internal-0.25)){
           startReleaseOnPort(0x03);
           p3internal = pressureValueFloat;
         }
