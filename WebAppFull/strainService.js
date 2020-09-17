@@ -99,7 +99,7 @@ async function initStrainService(){
 
       try{
         if(p1equiv>p1internal){
-          startInflationOnPort(0x01, 0x96);
+          startInflationOnPort(0x01, 0x96);          
           p1internal = pressureValueFloat;
           log("P1: ");
           log(p1internal);
@@ -119,7 +119,7 @@ async function initStrainService(){
           p1internal = pressureValueFloat;
         }
         else{
-            stopAllActions();
+          stopAllActions();
         }
       }catch(error){
         if(error.message!="GATT operation already in progress.") log(error);
