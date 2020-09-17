@@ -105,7 +105,7 @@ async function initStrainService(){
           log(p1internal);
         }
         else if(p3equiv>(p3internal+0.25)){
-          startInflationOnPort(0x03, 0xff);
+          startInflationOnPort(0x04, 0xff);
           p3internal = pressureValueFloat;
           log("P3: ");
           log(p3internal);
@@ -115,7 +115,7 @@ async function initStrainService(){
           p1internal = pressureValueFloat;
         }
         else if(p3equiv<(p3internal-0.25)){
-          startReleaseOnPort(0x03);
+          startReleaseOnPort(0x04);
           p3internal = pressureValueFloat;
         }
         else{
