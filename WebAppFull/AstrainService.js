@@ -18,7 +18,7 @@ let a5dv,a3dv,a2dv,a1dv;
 let a5dl,a3dl,a2dl,a1dl;
 let a5l, a3l, a2l, a1l;
 let p5equiv, p3equiv, p2equiv, p1equiv;
-let p5internal, p3internal, p2internal, p1internal;
+let p5internal=14.7, p3internal=14.7, p2internal=14.7, p1internal=14.7;
 
 let L0=30; //mm
 
@@ -46,7 +46,7 @@ function to_L(dv,v0){
 }
 
 function to_P(L){
-  let p = L;
+  let p = -5.686*(L) + 0.412*Math.pow(L,2) - 0.01*Math.pow(L,3) + 0.00008*Math.pow(L,4) + 14.5;
   return p;
 }
 
@@ -103,31 +103,23 @@ async function initStrainService(){
       //then we don't want to be readinding pressure by opening ports but reading it on the aleady open ports.
       //If (p5equiv > p5internal){startInflation(5) then wait until you have reached the desired pressure then stop. }
       try{
-        p5internal = await getPressure(5);
-        p3internal = await getPressure(3);
-        p2internal = await getPressure(2);
-        p1internal = await getPressure(1);
         //commandArray = new Uint8Array(3); this is defined in the controlService.js
-
-        if(a1>100 && a1<200){
-          commandArray[0] = 0x2b; //'+'
-          commandArray[1] = 0x01;
-          commandArray[2] = a1;
-          //chrCommand.writeValue(commandArray);
-          console.log("sending PWM command");
+        if(p1equiv>p1internal){
+          startInflationOnPort(0x01, 0xff);
+          p1internal = getPressureValue();
+          isIdle=false;
+        }
+        else if(p2equiv>p2internal){
+          startInflationOnPort(0x02, 0xff);
+          p2internal = getPressureValue();
           isIdle=false;
         }
         else{
           if(isIdle==false){
-            commandArray[0] = 0x21; //'!' stop
-            commandArray[1] = 0xff; //all ports
-            commandArray[2] = 0xff;
-            console.log("sending STOP command");
-            //chrCommand.writeValue(commandArray);
+            stopAllActions();
             isIdle=true;
           }
         }
-
       }catch(error){
         if(error.message!="GATT operation already in progress.") log(error);
       }

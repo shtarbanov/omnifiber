@@ -22,6 +22,7 @@ let maxDisplay;
 let maxSlider;
 let minDisplay;
 let minSlider;
+let pressureValueFloat;
 
 function getMaxValue() {
   maxDisplay.innerHTML = this.value;
@@ -44,9 +45,9 @@ async function initPressureService() {
     //TODO: Is FlowIO actually sending notifications when pressure chagnes??
     await chrPressureValue.startNotifications();
     chrPressureValue.addEventListener('characteristicvaluechanged', event => { //an event is returned
-      let floatValue = event.target.value.getFloat32(0,true); //the 'true' is for the endianness.
-      floatValue = floatValue.toFixed(3); //rounding to 4 decimal places.
-      log("P = " + floatValue);
+      pressureValueFloat = event.target.value.getFloat32(0,true); //the 'true' is for the endianness.
+      pressureValueFloat = pressureValueFloat.toFixed(3); //rounding to 4 decimal places.
+      //log("P = " + floatValue);
       //console.log(event); //we can use this in the console to see all the goodies in the event object.
     })
     getPressureValue();
@@ -62,6 +63,7 @@ async function getPressureValue(){
     //It is unnecessary to log the value of val, because this triggers our event listener
     //in the 'connect' function. Hence we commend out the line below.
     //log(val.getUint8(0) + "%");
+    return val.getFloat32(0,true);
   }
   else log("Device not connected");
 }

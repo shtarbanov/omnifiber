@@ -69,6 +69,7 @@ async function startInflation(){
   }
   else log("Device not connected");
 }
+
 async function startVacuum(){
   if (bleDevice && bleDevice.gatt.connected) {
     commandArray[0] = 0x2d; //'-'
@@ -150,4 +151,42 @@ function getSelectedPorts(){
         if(error.message!="GATT operation already in progress.") log(error);
       }
     }
+  }
+
+  /////////////////////////////////////////////////////
+  async function startInflationOnPort(portNum,pwmVal){
+    if (bleDevice && bleDevice.gatt.connected) {
+      commandArray[0] = 0x2b; //'+'
+      commandArray[1] = portNum;
+      commandArray[2] = pwmVal;
+      await chrCommand.writeValue(commandArray);
+    }
+    else log("Device not connected");
+  }
+  async function startVacuumOnPort(portNum,pwmVal){
+    if (bleDevice && bleDevice.gatt.connected) {
+      commandArray[0] = 0x2d; //'-'
+      commandArray[1] = portNum;
+      commandArray[2] = pwmVal;
+      await chrCommand.writeValue(commandArray);
+    }
+    else log("Device not connected");
+  }
+  async function startReleaseOnPort(portNum){
+    if (bleDevice && bleDevice.gatt.connected) {
+      commandArray[0] = 0x5e; //'^'
+      commandArray[1] = portNum;
+      commandArray[2] = 0xff; //irrelevant
+      await chrCommand.writeValue(commandArray);
+    }
+    else log("Device not connected");
+  }
+  async function stopActionOnPort(portNum){
+    if (bleDevice && bleDevice.gatt.connected) {
+      commandArray[0] = 0x21; //'!'
+      commandArray[1] = portNum;
+      commandArray[2] = 0xff; //irrelevant
+      await chrCommand.writeValue(commandArray);
+    }
+    else log("Device not connected");
   }
